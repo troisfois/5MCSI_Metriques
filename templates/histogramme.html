@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Histogramme des températures à Tawarano</title>
+
+    <!-- 1) Chargement de l’API Google Charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+      // 2) Chargement de la librairie "corechart"
+      google.charts.load("current", { packages: ["corechart"] });
+
+      // 3) On définit une fonction à lancer quand l'API est prête
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        // 4) Préparation des données
+        var data = google.visualization.arrayToDataTable([
+          ["Jour", "Température (°C)"],
+          ["Lundi", 12],
+          ["Mardi", 15],
+          ["Mercredi", 14],
+          ["Jeudi", 18],
+          ["Vendredi", 16],
+          ["Samedi", 19],
+          ["Dimanche", 17]
+        ]);
+
+        // 5) Options du graphique
+        var options = {
+          title: "Evolution des températures - Tawarano",
+          hAxis: { title: "Jour de la semaine" },
+          vAxis: { title: "Température (°C)" },
+          colors: ["#1b9e77"],
+          legend: { position: "none" }
+        };
+
+        // 6) Création et affichage du graphique
+        var chart = new google.visualization.ColumnChart(
+          document.getElementById("histogramme")
+        );
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>Histogramme des températures à Tawarano</h1>
+
+    <!-- 7) Conteneur où Google Chart va dessiner le graphique -->
+    <div id="histogramme" style="width: 800px; height: 500px;">
+      <!-- Le graphique s'affichera ici -->
+    </div>
+  </body>
+</html>
