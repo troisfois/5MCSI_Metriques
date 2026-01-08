@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Histogramme Tawarano</title>
+
+    <!-- Chargement Google Charts -->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Jour', 'Température'],
+          ['Lundi', 12],
+          ['Mardi', 15],
+          ['Mercredi', 14],
+          ['Jeudi', 18],
+          ['Vendredi', 16],
+          ['Samedi', 19],
+          ['Dimanche', 17]
+        ]);
+
+        var options = {
+          title: 'Évolution des températures de Tawarano',
+          legend: { position: 'none' },
+          hAxis: { title: 'Jour' },
+          vAxis: { title: 'Température (°C)' }
+        };
+
+        var chart = new google.visualization.ColumnChart(
+          document.getElementById('chart_div')
+        );
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>Histogramme</h1>
+    <div id="chart_div" style="width: 800px; height: 500px;"></div>
+  </body>
+</html>
