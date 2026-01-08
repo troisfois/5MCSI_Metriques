@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Commits du projet</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+  <h1>Nombre de Commits par minute</h1>
+  <div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+  <script>
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    async function drawChart() {
+      // Récupération des commits via l'API GitHub
+      const response = await fetch('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits');
+      const data = await response.json();
+
+      // On crée un tableau pour compter les commits par minute
+      const minutesCount = Array(60).fill(0);
+
+      data.forEach(commit => {
+        const dateStr = commit.commit.author.date; // clé Commit -> author -> date
+        const dateObj = new Date(dateStr);
+        const minute = dateObj.getUTCMinutes(); // récupérer la minute
+        minutesCount[minute]++;
+      });
+
+      // Convertir en format Google Charts
+      const chartData = [['Minute', 'Commits']];
+      for (let i = 0; i < 60; i++) {
+        chartData.push([i.toString(), minutesCount[i]]);
+      }
+
+      const dataTable = google.visualization.arrayToDataTable(chartData);
+
+      const options = {
+        title: 'Commits par minute',
+        legend: { position: 'bottom' },
+        hAxis: { title: 'Minute de l\'heure' },
+        vAxis: { title: 'Nombre de commits' },
+        colors: ['#ff3333']
+      };
+
+      const chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(dataTable, options);
+    }
+  </script>
+</body>
+</html>
